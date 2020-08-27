@@ -1,0 +1,91 @@
+openapi: 3.0.0
+info:
+  title: Note Nerd API
+  description: Put description here.
+  version: 0.1.9
+servers:
+  - url: http://localhost:8080/api/v1
+  - url: http://heuhaufen.org/notenerd/api/v1
+paths:
+  /note/{id}:
+    get:
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A JSON array of user names
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/noteResponseDto'
+  /riddle:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/riddleRequestDto'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/riddleResponseDto'
+
+  /quiz:
+    get:
+      responses:
+        '200':
+          description: OK
+
+components:
+  schemas:
+    riddleRequestDto:
+      type: object
+      properties:
+        constraint:
+          type: array
+          items:
+            $ref: '#/components/schemas/constraintDto'
+    riddleResponseDto:
+      type: object
+      properties:
+        note:
+          type: string
+        answers:
+          type: array
+          items:
+            type: string
+    noteResponseDto: 
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/noteEnum'
+        imgSrc:
+          description: The path to the note's image
+          type: string
+    constraintDto: 
+      type: object
+      properties:
+        fromNoteInclusive:
+          $ref: '#/components/schemas/noteEnum'
+        toNoteInclusive:
+          $ref: '#/components/schemas/noteEnum'
+        blacklist: 
+          type: array
+          items:
+            $ref: '#/components/schemas/noteEnum'
+        whitelist:
+          type: array
+          items:
+            $ref: '#/components/schemas/noteEnum'
+    noteEnum:
+      type: string
+      enum: [C3, 'C#3', 'Db3', 'D3', 'D#3', 'Eb3', 'E3', 'E#3', 'Fb3', 'F3', 'F#3', 'Gb3', 'G3', 'G#3', 'Ab3', A3, 'A', A#3, Bb3, B3, B#3, Cb3, C4]
+
+        

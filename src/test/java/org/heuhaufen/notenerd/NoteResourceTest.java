@@ -1,21 +1,23 @@
 package org.heuhaufen.notenerd;
 
-import io.quarkus.test.junit.QuarkusTest;
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.equalTo;
+
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.is;
+import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest
 public class NoteResourceTest {
 
     @Test
-    public void testHelloEndpoint() {
+    public void testNoteEndpoint() {
         given()
-          .when().get("/note")
-          .then()
-             .statusCode(200)
-             .body(is("hello"));
+            .when().get("api/v1/note/C#3")
+            .then()
+            .statusCode(200)
+            .body("id", equalTo("C#3"));
     }
 
 }
